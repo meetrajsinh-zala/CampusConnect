@@ -49,6 +49,7 @@ class LoginSerializer(serializers.Serializer):
     
     def create(self, validated_data):
         user = validated_data['user']
+        user_role = Role.objects.get(user = User.objects.get(username = user.username))
 
         refresh = RefreshToken.for_user(user)
         return{
@@ -57,5 +58,6 @@ class LoginSerializer(serializers.Serializer):
             "user": {
                 "username": user.username,
                 "email": user.email,
+                'role': user_role.role
             },
         }

@@ -26,7 +26,6 @@ const Login = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    role: "",
   });
 
   const [error, setError] = useState("");
@@ -52,7 +51,6 @@ const Login = () => {
       const response = await axios.post("http://localhost:8000/api/login/", {
         username: formData.username,
         password: formData.password,
-        role: formData.role,
       });
 
       if (response.status === 200) {
@@ -60,6 +58,7 @@ const Login = () => {
         localStorage.setItem("accessToken", access);
         localStorage.setItem("refreshToken", refresh);
         localStorage.setItem("username", user.username);
+        localStorage.setItem("role", user.role);
         alert("Successfully Login");
         // navigate("/Home");
       }
@@ -77,30 +76,6 @@ const Login = () => {
           <CardDescription>Welcome Back !</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
-          <div className="flex flex-col gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline">Select-Role</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Role</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuRadioGroup
-                  value={formData.role}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, role: value })
-                  }
-                >
-                  <DropdownMenuRadioItem value="admin">
-                    Admin
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="student">
-                    Student
-                  </DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
           <div className="flex flex-col gap-2">
             <Label>Username</Label>
             <Input
