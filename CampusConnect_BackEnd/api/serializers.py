@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Role
+from .models import Role,Notice_And_Events
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -61,3 +61,12 @@ class LoginSerializer(serializers.Serializer):
                 'role': user_role.role
             },
         }
+    
+class NoticeAndEventsSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())  # Automatically set the current user
+
+    class Meta:
+        model = Notice_And_Events
+        fields = ['id', 'user', 'department', 'description', 'image', 'like_count']
+        read_only_fields = ['id', 'like_count']
+    

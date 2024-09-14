@@ -1,7 +1,7 @@
 from rest_framework import status
-from .models import Role
+from .models import Notice_And_Events
 from django.contrib.auth.models import User
-from .serializers import UserRoleSerilizer,LoginSerializer
+from .serializers import UserRoleSerilizer,LoginSerializer, NoticeAndEventsSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -34,3 +34,25 @@ class LoginView(APIView):
                 token_data = serializer.save()
                 return Response(token_data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class NoticeAndEventsListCreate(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        notices = Notice_And_Events.objects.all()
+        serializer = NoticeAndEventsSerializer(notices, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        user = request.user
+
+        request.data._mutable = True 
+        request.data['user'] = user.id
+        request.data._mutable = False 
+
+        serializer = NoticeAndEventsSerializer(data=request.data, context={'request': request})
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -59,8 +59,7 @@ const Login = () => {
         localStorage.setItem("refreshToken", refresh);
         localStorage.setItem("username", user.username);
         localStorage.setItem("role", user.role);
-        alert("Successfully Login");
-        // navigate("/Home");
+        navigate("/Home");
       }
     } catch (err) {
       console.error("Error during login:", err);
