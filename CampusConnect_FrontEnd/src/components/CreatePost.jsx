@@ -12,12 +12,14 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-const CreatePost = () => {
+const CreatePost = ({Data}) => {
+  const ShowForm = Data?.ShowForm
   return (
-    <div>
+    <div className="absolute w-full bg-white z-10">
       <Card className="w-[450px] mx-auto my-14">
-        <CardHeader>
+        <CardHeader className="flex flex-row justify-between items-center">
           <CardTitle>Create Post</CardTitle>
+          <button onClick={ShowForm}>X</button>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">

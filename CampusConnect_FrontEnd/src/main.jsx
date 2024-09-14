@@ -7,6 +7,7 @@ import Login from "./components/Login.jsx";
 import SignUp from "./components/SignUp.jsx";
 import Home from "./components/Home.jsx";
 import Profile from "./components/Profile.jsx";
+import ProtectedRount from "./components/ProtectedRount.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +24,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/Home",
-        element: <Home />,
+        element: <ProtectedRount><Home /></ProtectedRount>,
       },
       {
         path: "/Profile",
-        element: <Profile />,
+        element: <ProtectedRount><Profile /></ProtectedRount>,
       },
     ],
   },

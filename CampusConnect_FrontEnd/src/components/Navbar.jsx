@@ -10,23 +10,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 
-const Navbar = ({ ChangeVisibility }) => {
-  console.log(ChangeVisibility);
+const Navbar = ({ Data }) => {
+  const ShowForm = Data?.ShowForm; 
+
   const navigate = useNavigate();
   const Logout = () => {
     localStorage.clear();
     navigate("/Login");
   };
-
   const ShowBtn = () => {
     if (
       (localStorage.getItem("role") === "admin") &
       (window.location.pathname === "/Home")
     ) {
       return (
-        <DropdownMenuRadioItem value="Create Post" onClick={ChangeVisibility}>
+        <DropdownMenuRadioItem value="Create Post" onClick={ShowForm}>
           Create Post
         </DropdownMenuRadioItem>
       );
@@ -54,7 +54,7 @@ const Navbar = ({ ChangeVisibility }) => {
           <DropdownMenuRadioGroup value={action} onValueChange={setAction}>
             <DropdownMenuRadioItem
               value="profile"
-              onClick={navigate("/Profile")}
+              onClick={() => {navigate("/Profile")}}
             >
               Profile
             </DropdownMenuRadioItem>

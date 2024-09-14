@@ -37,8 +37,8 @@ const Home = () => {
 
   return (
     <>
-      <Navbar Data={ChangeVisibility} />
-      {ShowCreatePost && <CreatePost />}
+      <Navbar Data={{ ShowForm: ChangeVisibility }}/>
+      {ShowCreatePost && <CreatePost Data={{ ShowForm: ChangeVisibility }}/>}
       <div className="w-[50%] mx-auto my-2">
         <Card className="w-auto shadow-md ">
           <CardHeader className="flex flex-row gap-2">

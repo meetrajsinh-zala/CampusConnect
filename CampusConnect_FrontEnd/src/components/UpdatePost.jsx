@@ -2,6 +2,7 @@ import React from "react";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -12,12 +13,14 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-const UpdatePost = () => {
+const UpdatePost = ({Data}) => {
+  const ShowForm = Data?.ShowForm
   return (
-    <div>
+    <div className="absolute w-full bg-white h-screen z-10">
       <Card className="w-[350px] mx-auto my-14">
-        <CardHeader>
+        <CardHeader className="flex flex-row justify-between items-center">
           <CardTitle>Update Post</CardTitle>
+          <button onClick={ShowForm}>X</button>
         </CardHeader>
 
         <CardContent className="flex flex-col gap-2">
