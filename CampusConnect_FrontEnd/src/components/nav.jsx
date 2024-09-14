@@ -14,11 +14,11 @@ import {
 const Nav = () => {
     const [action, setAction] = useState("");
   return (
-    <div className="flex justify-between p-4 shadow-sm shadow-gray-500">
-      <div className="text-[30px] font-sans">CAMPUS CONNECT</div>
+    <div className="flex justify-between p-4 shadow-sm shadow-gray-500 sticky top-0 bg-white z-50">
+      <div className="text-[30px] font-sans cursor-pointer">CAMPUS CONNECT</div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar>
+          <Avatar className="cursor-pointer">
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>

@@ -7,6 +7,9 @@ import Login from './components/Login.jsx';
 import SignUp from './components/SignUp.jsx';
 import Nav from './components/nav.jsx';
 import Home from './components/Home.jsx';
+import Createpost from './components/create_post.jsx';
+import Updatepost from "./components/update_post.jsx"
+import Admindash from './components/admin_dashboard.jsx';
 const router = createBrowserRouter ([
   {
     path: '/',
@@ -21,7 +24,10 @@ const router = createBrowserRouter ([
         element: <SignUp />,
       },
       {path:"/Nav",element:<Nav/>},
-      {path:"/Home",element:<Home/>}
+      {path:"/Home",element:<Home/>},
+      {path:"/createpost",element:<Createpost/>},
+      {path:"/updatepost",element:<Updatepost/>},
+      {path:"/admindash",element:<Admindash/>},
     ],
   },
 ]);
