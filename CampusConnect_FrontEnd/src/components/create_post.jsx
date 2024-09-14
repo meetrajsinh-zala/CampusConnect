@@ -2,7 +2,6 @@ import React from 'react'
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -14,6 +13,7 @@ import { Button } from "./ui/button";
 import { Textarea } from "@/components/ui/textarea"
 
 const Createpost = () => {
+  
   return (
     <div>
     <Card className="w-[450px] mx-auto my-14">

@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -60,8 +63,35 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
 }
 
+.css-selector {
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(271deg, #5752ad, #3e3ef7,#00d4ff);
+  background-size: 400% 400%; /* Ensure the gradient covers enough area */
+  -webkit-background-clip: text; /* Safari */
+  background-clip: text; /* Standard */
+  color: transparent; /* Make the text itself transparent to show the gradient */
+  animation: AnimationName 3s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 51%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 51%}
+  100%{background-position:0% 50%}
+}
+@keyframes AnimationName {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 51%}
+  100%{background-position:0% 50%}
+}
+
+body{
+  background-color: white;
+}

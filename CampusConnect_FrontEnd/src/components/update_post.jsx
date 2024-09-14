@@ -12,7 +12,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-const Createpost = () => {
+const Updatepost = () => {
   return (
     <div>
       <Card className="w-[350px] mx-auto my-14">
@@ -45,4 +45,4 @@ const Createpost = () => {
   );
 };
 
-export default Createpost;
+export default Updatepost;

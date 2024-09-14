@@ -13,9 +13,10 @@ import {
 
 const Nav = () => {
     const [action, setAction] = useState("");
+
   return (
     <div className="flex justify-between p-4 shadow-sm shadow-gray-500 sticky top-0 bg-white z-50">
-      <div className="text-[30px] font-sans cursor-pointer">CAMPUS CONNECT</div>
+      <div className="font-mont font-light cursor-pointer css-selector">CAMPUS CONNECT</div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="cursor-pointer">
@@ -24,7 +25,7 @@ const Nav = () => {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-auto mx-2">
-          <DropdownMenuLabel>Hello, Username</DropdownMenuLabel>
+          <DropdownMenuLabel>Hello, {localStorage.getItem("username")}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup value={action} onValueChange={setAction}>
             <DropdownMenuRadioItem value="profile">Profile</DropdownMenuRadioItem>
