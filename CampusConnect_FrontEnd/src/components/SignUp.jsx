@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardContent,
@@ -6,11 +6,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card';
-import {Label} from './ui/label';
-import {Input} from './ui/input';
-import {Button} from './ui/button';
-import {Link} from 'react-router-dom';
+} from "./ui/card";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
@@ -46,7 +46,7 @@ const SignUp = () => {
           <Button className="w-full">Sign up</Button>
           <p className="text-center">
             Don't have an account?&nbsp;
-            <Link to={'/Login'} className="text-[#1c284f] font-bold">
+            <Link to={"/Login"} className="text-[#1c284f] font-bold">
               Login
             </Link>
           </p>
