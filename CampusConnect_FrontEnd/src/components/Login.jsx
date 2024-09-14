@@ -7,15 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -59,6 +50,7 @@ const Login = () => {
         localStorage.setItem("refreshToken", refresh);
         localStorage.setItem("username", user.username);
         localStorage.setItem("role", user.role);
+        localStorage.setItem("email", user.email);
         navigate("/Home");
       }
     } catch (err) {

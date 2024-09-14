@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import th from "../assets/th.jpg";
+// import th from "../assets/th.jpg";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
-import Nav from "../components/nav";
+import Navbar from "../components/Navbar";
+import CreatePost from "./CreatePost";
 
 const Home = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [ShowCreatePost, setShowCreatePost] = useState(false);
 
   const fullText =
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti voluptatum beatae sint nam, rem id, consequuntur sunt aspernatur dolore ab reiciendis? Fugit aspernatur ab tenetur! Cum facilis repudiandae ab, reprehenderit dignissimos iste ratione eum inventore ipsum modi odio, vel veniam doloremque. Sed quas minus quos animi omnis unde fuga numquam assumenda dignissimos voluptate, quae aliquid in eveniet quis? Magnam aliquam non aperiam dolorem aut sunt dicta possimus incidunt, nostrum amet recusandae fugiat error quas, magni cupiditate animi ratione, nihil architecto obcaecati consequuntur voluptates minus facere. Odit non sit tempore totam iste, impedit fugit quisquam odio. Similique alias exercitationem quidem dicta.";
@@ -31,9 +31,14 @@ const Home = () => {
     setIsLiked(!isLiked);
   };
 
+  const ChangeVisibility = () => {
+    setShowCreatePost(!ShowCreatePost);
+  };
+
   return (
     <>
-      <Nav />
+      <Navbar Data={ChangeVisibility} />
+      {ShowCreatePost && <CreatePost />}
       <div className="w-[50%] mx-auto my-2">
         <Card className="w-auto shadow-md ">
           <CardHeader className="flex flex-row gap-2">
@@ -44,7 +49,7 @@ const Home = () => {
             <CardTitle className="cursor-pointer">Username</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col justify-center gap-4">
-            <img src={th} className="rounded-lg"></img>
+            <img src="" className="rounded-lg"></img>
             <p className="text-lg">
               {isExpanded ? fullText : `${fullText.slice(0, 100)}...`}{" "}
             </p>
@@ -80,7 +85,7 @@ const Home = () => {
             <CardTitle className="cursor-pointer">Username</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col justify-center gap-4">
-            <img src={th} className="rounded-lg"></img>
+            <img src="" className="rounded-lg"></img>
             <p className="text-lg">
               {isExpanded ? fullText : `${fullText.slice(0, 100)}...`}{" "}
             </p>
