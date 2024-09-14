@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardContent,
@@ -6,11 +6,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card';
-import {Label} from './ui/label';
-import {Input} from './ui/input';
-import {Button} from './ui/button';
-import {Link} from 'react-router-dom';
+} from "./ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [position, setPosition] = useState("bottom");
