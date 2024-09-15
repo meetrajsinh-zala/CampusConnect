@@ -10,10 +10,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Navbar = ({ Data }) => {
-  const ShowForm = Data?.ShowForm; 
+  const ShowForm = Data?.ShowForm;
 
   const navigate = useNavigate();
   const Logout = () => {
@@ -53,8 +53,18 @@ const Navbar = ({ Data }) => {
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup value={action} onValueChange={setAction}>
             <DropdownMenuRadioItem
+              value="Home"
+              onClick={() => {
+                navigate("/Home");
+              }}
+            >
+              Home
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem
               value="profile"
-              onClick={() => {navigate("/Profile")}}
+              onClick={() => {
+                navigate("/Profile");
+              }}
             >
               Profile
             </DropdownMenuRadioItem>

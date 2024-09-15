@@ -39,7 +39,7 @@ const Home = () => {
         />
       )}
       {notices.map((notice) => (
-        <HomePostCard key={notice.id} notice={notice} /> // Pass the notice object to HomePostCard
+        <HomePostCard key={notice.id} notice={notice} />
       ))}
     </>
   );

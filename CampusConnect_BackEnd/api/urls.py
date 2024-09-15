@@ -3,7 +3,8 @@ from .views import (
     SignupView,
     LoginView,
     NoticeAndEventsListCreate,
-    NoticeAndEventsProfilePage
+    NoticeAndEventsProfilePage,
+    like_notice
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,6 +15,7 @@ urlpatterns = [
     path('notices/', NoticeAndEventsListCreate.as_view(), name='notice-list-create'),
     path('FilterNotice/',NoticeAndEventsProfilePage.as_view(),name='filter-notice'),
     path('FilterNotice/<int:pk>/', NoticeAndEventsProfilePage.as_view(), name='notice_and_events_detail'),
+    path('notices/<int:pk>/like/', like_notice, name='like-notice'),
 ]
 
 if settings.DEBUG:

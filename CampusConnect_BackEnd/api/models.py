@@ -11,14 +11,4 @@ class Notice_And_Events(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='notices/')
     like_count = models.PositiveIntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def increment_like_count(self):
-        self.like_count += 1
-        self.save()
-
-    def decrement_like_count(self):
-        if self.like_count > 0:
-            self.like_count -= 1
-            self.save()
+    liked_users = models.ManyToManyField(User, related_name='liked_notices', blank=True)

@@ -5,6 +5,7 @@ const App = () => {
   return (
     <div className="w-full h-full">
       <Outlet />
+      {!localStorage.getItem("accessToken") && <Navigate to={"/Login"} />}
     </div>
   );
 };

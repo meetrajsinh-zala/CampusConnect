@@ -8,21 +8,42 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FcLike, FcLikePlaceholder } from "react-icons/fc";
+import { Button } from "./ui/button";
 
 const BACKEND_URL = "http://localhost:8000";
+const token = localStorage.getItem("accessToken");
 
 const HomePostCard = ({ notice }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+  const [likeCount, setLikeCount] = useState(notice.like_count);
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleLikeToggle = () => {
-    setIsLiked(!isLiked);
+  const handleLikeToggle = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/api/notices/${notice.id}/like/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update like count");
+      }
+
+      const data = await response.json();
+      setLikeCount(data.like_count);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -32,7 +53,7 @@ const HomePostCard = ({ notice }) => {
   }, [notice]);
 
   return (
-    <div className="w-[50%] mx-auto my-2">
+    <div className="w-full sm:w-[75%] lg:w-[50%] mx-auto my-2">
       <Card className="w-auto shadow-md ">
         <CardHeader className="flex flex-row gap-2">
           <div className="flex items-center gap-3">
@@ -64,18 +85,17 @@ const HomePostCard = ({ notice }) => {
               ? notice.description
               : `${notice.description.slice(0, 100)}...`}
           </p>
-          <button onClick={handleToggle} className="text-black hover:underline">
-            {isExpanded ? "Show Less" : "Show More"}
-          </button>
+          {notice.description.length > 100 && (
+            <button
+              onClick={handleToggle}
+              className="text-black hover:underline"
+            >
+              {isExpanded ? "Show Less" : "Show More"}
+            </button>
+          )}
         </CardContent>
         <CardFooter className="flex gap-2">
-          <div onClick={handleLikeToggle}>
-            {isLiked ? (
-              <FcLike size={24} className="cursor-pointer" />
-            ) : (
-              <FcLikePlaceholder size={24} className="cursor-pointer" />
-            )}
-          </div>
+          <Button onClick={handleLikeToggle}>{likeCount} Likes</Button>
         </CardFooter>
       </Card>
     </div>

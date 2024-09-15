@@ -1,6 +1,6 @@
 from rest_framework import status
 from .models import Notice_And_Events
-from django.contrib.auth.models import User
+from rest_framework.decorators import api_view,permission_classes
 from .serializers import UserRoleSerilizer,LoginSerializer, NoticeAndEventsSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -70,3 +70,21 @@ class NoticeAndEventsProfilePage(APIView):
         
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_notice(request, pk):
+    try:
+        notice = Notice_And_Events.objects.get(pk=pk)
+    except Notice_And_Events.DoesNotExist:
+        return Response({"error": "Notice not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    user = request.user
+    if user in notice.liked_users.all():
+        notice.liked_users.remove(user)
+        notice.like_count -= 1
+    else:
+        notice.liked_users.add(user)
+        notice.like_count += 1
+    notice.save()
+    return Response({'like_count': notice.like_count}, status=status.HTTP_200_OK)

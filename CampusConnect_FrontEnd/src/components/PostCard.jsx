@@ -23,12 +23,6 @@ const PostCard = ({ ShowForm, data, onDelete }) => {
     setIsExpanded(!isExpanded);
   };
 
-  const [isLiked, setIsLiked] = useState(false);
-
-  const handleLikeToggle = () => {
-    setIsLiked(!isLiked);
-  };
-
   useEffect(() => {
     if (data.image) {
       setImageUrl(`${BACKEND_URL}${data.image}`);
@@ -69,17 +63,9 @@ const PostCard = ({ ShowForm, data, onDelete }) => {
         </CardContent>
 
         <CardFooter className="flex gap-2 justify-between">
-          <div
-            className={`flex gap-2 ${isLiked ? "liked" : "not-liked"}`}
-            onClick={handleLikeToggle}
-          >
-            {isLiked ? (
-              <FcLike size={24} className="cursor-pointer" />
-            ) : (
-              <FcLikePlaceholder size={24} className="cursor-pointer" />
-            )}
-
-            <p>Likes Count</p>
+          <div className={`flex gap-2`}>
+            <FcLike size={24} />
+            <p className="select-none">{data.like_count} Likes</p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={ShowForm}>
