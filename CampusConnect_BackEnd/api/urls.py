@@ -16,6 +16,7 @@ urlpatterns = [
     path('FilterNotice/',NoticeAndEventsProfilePage.as_view(),name='filter-notice'),
     path('FilterNotice/<int:pk>/', NoticeAndEventsProfilePage.as_view(), name='notice_and_events_detail'),
     path('notices/<int:pk>/like/', like_notice, name='like-notice'),
+    path('notice-update/<int:pk>/', NoticeAndEventsProfilePage.as_view(), name='notice-detail'),
 ]
 
 if settings.DEBUG:

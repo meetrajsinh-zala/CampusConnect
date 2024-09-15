@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 
 const BACKEND_URL = "http://localhost:8000";
 
-const PostCard = ({ ShowForm, data, onDelete }) => {
+const PostCard = ({ onUpdate, data, onDelete }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -54,12 +54,21 @@ const PostCard = ({ ShowForm, data, onDelete }) => {
 
         <CardContent className="flex flex-col justify-center gap-4">
           <img src={imageUrl} className="rounded-lg" alt="Post Thumbnail" />
-          <p className="text-lg">
-            {isExpanded ? fullText : `${fullText.slice(0, 100)}...`}{" "}
-          </p>
-          <button onClick={handleToggle} className="text-black hover:underline">
-            {isExpanded ? "Show Less" : "Show More"}
-          </button>
+          {data.description.length > 100 ? (
+            <p className="text-lg">
+              {isExpanded ? fullText : `${fullText.slice(0, 100)}...`}{" "}
+            </p>
+          ) : (
+            <p className="text-lg">{fullText}</p>
+          )}
+          {data.description.length > 100 && (
+            <button
+              onClick={handleToggle}
+              className="text-black hover:underline"
+            >
+              {isExpanded ? "Show Less" : "Show More"}
+            </button>
+          )}
         </CardContent>
 
         <CardFooter className="flex gap-2 justify-between">
@@ -68,7 +77,7 @@ const PostCard = ({ ShowForm, data, onDelete }) => {
             <p className="select-none">{data.like_count} Likes</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={ShowForm}>
+            <Button variant="outline" onClick={onUpdate}>
               Update
             </Button>
             <Button onClick={() => onDelete(data.id)}>Delete</Button>

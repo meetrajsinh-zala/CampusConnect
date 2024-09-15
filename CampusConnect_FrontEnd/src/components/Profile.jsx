@@ -8,14 +8,22 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { IoCameraOutline } from "react-icons/io5";
 
 const Profile = () => {
-  const [ShowUpdateForm, setShowUpdateForm] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
   const [posts, setPosts] = useState([]);
   const token = localStorage.getItem("accessToken");
 
-  const ShowForm = () => {
-    setShowUpdateForm(!ShowUpdateForm);
+  const handleEditClick = (post) => {
+    setSelectedPost(post);
+    setShowUpdateForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowUpdateForm(false);
+    setSelectedPost(null);
   };
 
   useEffect(() => {
@@ -56,10 +64,12 @@ const Profile = () => {
     <>
       <Navbar />
       <ToastContainer />
-      {ShowUpdateForm && <UpdatePost Data={{ ShowForm: ShowForm }} />}
+      {showUpdateForm && selectedPost && (
+        <UpdatePost data={selectedPost} onClose={handleCloseForm} fetchPosts={fetchPosts} />
+      )}
       <div
         className={`${
-          localStorage.getItem("role") === "student" && "h-[calc(100vh-77px)]"
+          localStorage.getItem("role") === "student" && "h-[calc(100vh-100px)]"
         } flex justify-center items-center`}
       >
         <Card
@@ -93,17 +103,30 @@ const Profile = () => {
             {localStorage.getItem("role") === "admin" && (
               <>
                 <div className="mt-2 p-2 w-[90%] mx-auto">
-                  <Label className="text-[30px] ">POSTS</Label>
+                  <Label className="text-[30px] ">NOTICES</Label>
                 </div>
-                <div className="mx-auto w-[90%] my-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {posts.map((post) => (
-                    <PostCard
-                      key={post.id}
-                      data={post}
-                      // onUpdate={handleUpdate}
-                      onDelete={handleDelete}
-                    />
-                  ))}
+                <div
+                  className={`mx-auto w-[90%] my-2 ${
+                    posts.length > 0 && "grid grid-cols-1 sm:grid-cols-2 gap-4"
+                  }`}
+                >
+                  {posts.length > 0 ? (
+                    posts.map((post) => (
+                      <PostCard
+                        key={post.id}
+                        data={post}
+                        onUpdate={() => handleEditClick(post)}
+                        onDelete={handleDelete}
+                      />
+                    ))
+                  ) : (
+                    <div className="flex w-full flex-col justify-center items-center">
+                      <IoCameraOutline size={50} />
+                      <p className="text-center font-semibold text-zinc-600">
+                        NO NOTICES YET
+                      </p>
+                    </div>
+                  )}
                 </div>
               </>
             )}

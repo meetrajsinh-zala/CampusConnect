@@ -80,11 +80,15 @@ const HomePostCard = ({ notice }) => {
           {imageUrl && (
             <img src={imageUrl} className="rounded-lg" alt="Post Image" />
           )}
-          <p className="text-lg">
-            {isExpanded
-              ? notice.description
-              : `${notice.description.slice(0, 100)}...`}
-          </p>
+          {notice.description.length > 100 ? (
+            <p className="text-lg">
+              {isExpanded
+                ? notice.description
+                : `${notice.description.slice(0, 100)}...`}
+            </p>
+          ) : (
+            <p className="text-lg">{notice.description}</p>
+          )}
           {notice.description.length > 100 && (
             <button
               onClick={handleToggle}

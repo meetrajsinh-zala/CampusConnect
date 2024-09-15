@@ -71,6 +71,19 @@ class NoticeAndEventsProfilePage(APIView):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+    def put(self, request, pk, format=None):
+        try:
+            post = Notice_And_Events.objects.get(pk=pk, user=request.user)
+        except Notice_And_Events.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    
+        serializer = NoticeAndEventsSerializer(post, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print(serializer.errors)  # Print validation errors for debugging
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_notice(request, pk):
