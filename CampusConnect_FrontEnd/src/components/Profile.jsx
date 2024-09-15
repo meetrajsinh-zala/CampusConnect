@@ -6,10 +6,13 @@ import UpdatePost from "./UpdatePost";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
   const [ShowUpdateForm, setShowUpdateForm] = useState(false);
   const [posts, setPosts] = useState([]);
+  const token = localStorage.getItem("accessToken");
 
   const ShowForm = () => {
     setShowUpdateForm(!ShowUpdateForm);
@@ -17,22 +20,42 @@ const Profile = () => {
 
   useEffect(() => {
     if (localStorage.getItem("role") === "admin") {
-      const token = localStorage.getItem("accessToken");
-      axios
-        .get("http://localhost:8000/api/FilterNotice/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => setPosts(response.data))
-        .catch((error) => console.error(error));
-      console.log(posts);
+      fetchPosts();
     }
   }, [localStorage.getItem("role")]);
+
+  const fetchPosts = () => {
+    axios
+      .get("http://localhost:8000/api/FilterNotice/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => setPosts(response.data))
+      .catch((error) => console.error(error));
+    console.log(posts);
+  };
+
+  const handleDelete = (postId) => {
+    axios
+      .delete(`http://localhost:8000/api/FilterNotice/${postId}/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        fetchPosts();
+        toast.success("Successfully Delete Post...", {
+          position: "bottom-right",
+        });
+      })
+      .catch((error) => console.error("Error deleting post:", error));
+  };
 
   return (
     <>
       <Navbar />
+      <ToastContainer />
       {ShowUpdateForm && <UpdatePost Data={{ ShowForm: ShowForm }} />}
       <div
         className={`${
@@ -78,7 +101,7 @@ const Profile = () => {
                       key={post.id}
                       data={post}
                       // onUpdate={handleUpdate}
-                      // onDelete={handleDelete}
+                      onDelete={handleDelete}
                     />
                   ))}
                 </div>

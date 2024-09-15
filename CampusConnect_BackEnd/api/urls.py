@@ -12,7 +12,8 @@ urlpatterns = [
     path("signup/", SignupView.as_view(), name="signup"),
     path("login/", LoginView.as_view(), name="login"),
     path('notices/', NoticeAndEventsListCreate.as_view(), name='notice-list-create'),
-    path('FilterNotice/',NoticeAndEventsProfilePage.as_view(),name='filter-notice')
+    path('FilterNotice/',NoticeAndEventsProfilePage.as_view(),name='filter-notice'),
+    path('FilterNotice/<int:pk>/', NoticeAndEventsProfilePage.as_view(), name='notice_and_events_detail'),
 ]
 
 if settings.DEBUG:

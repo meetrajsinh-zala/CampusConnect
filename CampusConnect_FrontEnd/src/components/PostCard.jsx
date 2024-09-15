@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 
 const BACKEND_URL = "http://localhost:8000";
 
-const PostCard = ({ ShowForm, data }) => {
+const PostCard = ({ ShowForm, data, onDelete }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -85,7 +85,7 @@ const PostCard = ({ ShowForm, data }) => {
             <Button variant="outline" onClick={ShowForm}>
               Update
             </Button>
-            <Button>Delete</Button>
+            <Button onClick={() => onDelete(data.id)}>Delete</Button>
           </div>
         </CardFooter>
       </Card>

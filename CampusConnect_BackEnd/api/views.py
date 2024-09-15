@@ -56,7 +56,17 @@ class NoticeAndEventsListCreate(APIView):
     
 class NoticeAndEventsProfilePage(APIView):
     permission_classes = [IsAuthenticated]
+    
     def get(self, request, format=None):
         notices = Notice_And_Events.objects.filter(user=request.user)
         serializer = NoticeAndEventsSerializer(notices, many=True)
         return Response(serializer.data)
+    
+    def delete(self, request, pk, format=None):
+        try:
+            post = Notice_And_Events.objects.get(pk=pk, user=request.user)
+        except Notice_And_Events.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

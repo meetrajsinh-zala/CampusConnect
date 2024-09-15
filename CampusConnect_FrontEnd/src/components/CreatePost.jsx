@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const CreatePost = ({ Data }) => {
   const ShowForm = Data?.ShowForm;
+  const fetchNotice = Data.fetchNotice;
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [department, setDepartment] = useState("");
@@ -43,8 +44,9 @@ const CreatePost = ({ Data }) => {
       );
       console.log("Post created:", response.data);
       toast.success("Notice Created Successfully...", {
-        position: "top-center",
+        position: "bottom-right",
       });
+      fetchNotice();
     } catch (error) {
       console.error("Error creating post:", error.response.data);
     }
