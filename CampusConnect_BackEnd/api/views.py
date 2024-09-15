@@ -53,3 +53,10 @@ class NoticeAndEventsListCreate(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class NoticeAndEventsProfilePage(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, format=None):
+        notices = Notice_And_Events.objects.filter(user=request.user)
+        serializer = NoticeAndEventsSerializer(notices, many=True)
+        return Response(serializer.data)

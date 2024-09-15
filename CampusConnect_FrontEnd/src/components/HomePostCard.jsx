@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -34,11 +35,25 @@ const HomePostCard = ({ notice }) => {
     <div className="w-[50%] mx-auto my-2">
       <Card className="w-auto shadow-md ">
         <CardHeader className="flex flex-row gap-2">
-          <Avatar className="cursor-pointer">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <CardTitle className="cursor-pointer">{notice.username}</CardTitle>
+          <div className="flex items-center gap-3">
+            <div>
+              <Avatar className="cursor-pointer">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </div>
+            <div>
+              <CardTitle className="cursor-pointer">
+                {notice.username}
+              </CardTitle>
+              <CardDescription>
+                Notice Department : {notice.department}
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="flex flex-col justify-center gap-4">
           {imageUrl && (
