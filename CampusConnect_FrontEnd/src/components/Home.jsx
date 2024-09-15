@@ -4,10 +4,13 @@ import CreatePost from "./CreatePost";
 import HomePostCard from "./HomePostCard";
 import axios from "axios";
 import { IoCameraOutline } from "react-icons/io5";
+import { Input } from "./ui/input";
 
 const Home = () => {
   const [ShowCreatePost, setShowCreatePost] = useState(false);
   const [notices, setNotices] = useState([]);
+  const [filteredNotices, setFilteredNotices] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const ChangeVisibility = () => {
     setShowCreatePost(!ShowCreatePost);
@@ -22,6 +25,7 @@ const Home = () => {
         },
       });
       setNotices(response.data);
+      setFilteredNotices(response.data);
     } catch (error) {
       console.error("Error fetching notices:", error);
     }
@@ -31,6 +35,20 @@ const Home = () => {
     fetchNotices();
   }, []);
 
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearchTerm(searchTerm);
+
+    if (searchTerm === "") {
+      setFilteredNotices(notices);
+    } else {
+      const filtered = notices.filter((notice) =>
+        notice.department.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredNotices(filtered);
+    }
+  };
+
   return (
     <>
       <Navbar Data={{ ShowForm: ChangeVisibility }} />
@@ -39,8 +57,16 @@ const Home = () => {
           Data={{ ShowForm: ChangeVisibility, fetchNotice: fetchNotices }}
         />
       )}
+      <div className="w-full sm:w-[75%] lg:w-[50%] mx-auto my-2">
+        <Input
+          type="text"
+          placeholder="Filter Based On Department"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
       {notices.length > 0 ? (
-        notices.map((notice) => (
+        filteredNotices.map((notice) => (
           <HomePostCard key={notice.id} notice={notice} />
         ))
       ) : (

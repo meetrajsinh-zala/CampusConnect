@@ -34,7 +34,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Form validation
     if (!formData.username || !formData.password) {
       setError("Please fill in all required fields.");
       return;

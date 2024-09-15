@@ -39,17 +39,14 @@ class NoticeAndEventsListCreate(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
-        notices = Notice_And_Events.objects.all()
+        notices = Notice_And_Events.objects.all().order_by('-created_at')
         serializer = NoticeAndEventsSerializer(notices, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        user = request.user
-        request.data._mutable = True
-        request.data['user'] = user.id
-        request.data._mutable = False
         serializer = NoticeAndEventsSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
+            serializer.validated_data['user'] = request.user
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -76,13 +73,13 @@ class NoticeAndEventsProfilePage(APIView):
             post = Notice_And_Events.objects.get(pk=pk, user=request.user)
         except Notice_And_Events.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-    
+
         serializer = NoticeAndEventsSerializer(post, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        print(serializer.errors)  # Print validation errors for debugging
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

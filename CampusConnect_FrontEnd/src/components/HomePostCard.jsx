@@ -80,6 +80,10 @@ const HomePostCard = ({ notice }) => {
           {imageUrl && (
             <img src={imageUrl} className="rounded-lg" alt="Post Image" />
           )}
+          <p className="text-sm text-gray-400">
+            Created On :{" "}
+            {new Date(notice.created_at).toISOString().split("T")[0]}
+          </p>
           {notice.description.length > 100 ? (
             <p className="text-lg">
               {isExpanded

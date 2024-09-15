@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 # Create your models here.
 class Role(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -12,3 +13,5 @@ class Notice_And_Events(models.Model):
     image = models.ImageField(upload_to='notices/')
     like_count = models.PositiveIntegerField(default=0)
     liked_users = models.ManyToManyField(User, related_name='liked_notices', blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
