@@ -12,6 +12,8 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -51,16 +53,28 @@ const Login = () => {
         localStorage.setItem("username", user.username);
         localStorage.setItem("role", user.role);
         localStorage.setItem("email", user.email);
-        navigate("/Home");
+        toast.success('Successfully Logged In...',{
+          position:"top-center"
+        })
+        toast('Rediracting To The Home Page...',{
+          position:'top-center'
+        })
+        setTimeout(() => {
+          navigate("/Home");
+        }, 2000);
       }
     } catch (err) {
       console.error("Error during login:", err);
       setError("Invalid login credentials.");
+      toast.error('Invalid Login Credentials...',{
+        position:'top-center'
+      })
     }
   };
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
+      <ToastContainer/>
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Login</CardTitle>

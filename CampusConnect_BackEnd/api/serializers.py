@@ -63,10 +63,10 @@ class LoginSerializer(serializers.Serializer):
         }
     
 class NoticeAndEventsSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())  # Automatically set the current user
+    username = serializers.CharField(source='user.username', read_only=True)
 
     class Meta:
         model = Notice_And_Events
-        fields = ['id', 'user', 'department', 'description', 'image', 'like_count']
-        read_only_fields = ['id', 'like_count']
+        fields = ['id', 'user', 'username', 'department', 'description', 'image', 'like_count']
+        read_only_fields = ['id', 'like_count', 'username']  
     

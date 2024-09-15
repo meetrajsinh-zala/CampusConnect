@@ -45,13 +45,10 @@ class NoticeAndEventsListCreate(APIView):
 
     def post(self, request, format=None):
         user = request.user
-
-        request.data._mutable = True 
+        request.data._mutable = True
         request.data['user'] = user.id
-        request.data._mutable = False 
-
+        request.data._mutable = False
         serializer = NoticeAndEventsSerializer(data=request.data, context={'request': request})
-        
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

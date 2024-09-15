@@ -21,6 +21,8 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -64,16 +66,28 @@ const SignUp = () => {
       });
 
       if (response.status === 201) {
-        navigate("/login");
+        toast.success("User Register Sucessfully", {
+          position: "top-center",
+        });
+        toast("Redirecting To The Login Page...", {
+          position: "top-center",
+        });
+        setTimeout(() => {
+          navigate("/Login");
+        }, 2000);
       }
     } catch (err) {
       console.error("Error during sign-up:", err);
       setError("Failed to create account. Please try again.");
+      toast.error("Somthing went wrong...", {
+        position: "top-center",
+      });
     }
   };
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
+      <ToastContainer />
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Sign Up</CardTitle>
