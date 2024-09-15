@@ -67,6 +67,6 @@ class NoticeAndEventsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notice_And_Events
-        fields = ['id','username', 'department', 'description', 'image', 'like_count','created_at', 'updated_at']
+        fields = ['id','username', 'department', 'description', 'image','file', 'like_count','created_at', 'updated_at']
         read_only_fields = ['id', 'like_count', 'username','created_at', 'updated_at']  
     

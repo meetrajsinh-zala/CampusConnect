@@ -20,6 +20,7 @@ const UpdatePost = ({ data, onClose, fetchPosts }) => {
   const [department, setDepartment] = useState(data.department || "");
   const [description, setDescription] = useState(data.description || "");
   const [image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
   const token = localStorage.getItem("accessToken");
 
   const handleImageChange = (e) => {
@@ -32,6 +33,7 @@ const UpdatePost = ({ data, onClose, fetchPosts }) => {
     formData.append("department", department);
     formData.append("description", description);
     if (image) formData.append("image", image);
+    if (file) formData.append("file", file);
 
     try {
       const response = await axios.put(
@@ -56,7 +58,7 @@ const UpdatePost = ({ data, onClose, fetchPosts }) => {
   };
 
   return (
-    <div className="fixed w-full h-full bg-[#fff] z-10">
+    <div className="fixed top-0 left-0 w-full h-full bg-[#fff] z-10">
       <ToastContainer />
       <Card className="w-[350px] mx-auto my-14">
         <CardHeader className="flex flex-row justify-between items-center">
@@ -78,6 +80,15 @@ const UpdatePost = ({ data, onClose, fetchPosts }) => {
           <div className="flex flex-col gap-2">
             <Label>Image</Label>
             <Input type="file" onChange={handleImageChange} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label>Document</Label>
+            <Input
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
           </div>
 
           <div className="flex flex-col gap-2">

@@ -11,6 +11,7 @@ class Notice_And_Events(models.Model):
     department = models.CharField(max_length=60)
     description = models.TextField()
     image = models.ImageField(upload_to='notices/')
+    file = models.FileField(upload_to='files/', blank=True, null=True)
     like_count = models.PositiveIntegerField(default=0)
     liked_users = models.ManyToManyField(User, related_name='liked_notices', blank=True)
     created_at = models.DateTimeField(default=timezone.now)

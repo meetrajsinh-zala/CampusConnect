@@ -58,12 +58,14 @@ const Home = () => {
         />
       )}
       <div className="w-full sm:w-[75%] lg:w-[50%] mx-auto my-2">
-        <Input
-          type="text"
-          placeholder="Filter Based On Department"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
+        {notices.length > 0 && (
+          <Input
+            type="text"
+            placeholder="Filter Based On Department"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        )}
       </div>
       {notices.length > 0 ? (
         filteredNotices.map((notice) => (

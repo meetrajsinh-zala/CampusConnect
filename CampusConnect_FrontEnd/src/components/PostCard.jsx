@@ -10,6 +10,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const BACKEND_URL = "http://localhost:8000";
 
@@ -21,6 +22,10 @@ const PostCard = ({ onUpdate, data, onDelete }) => {
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const handleDownload = () => {
+    window.location.href = `http://localhost:8000/api/notices/${data.id}/download/`;
   };
 
   useEffect(() => {
@@ -54,6 +59,16 @@ const PostCard = ({ onUpdate, data, onDelete }) => {
 
         <CardContent className="flex flex-col justify-center gap-4">
           <img src={imageUrl} className="rounded-lg" alt="Post Thumbnail" />
+          {data.file && (
+            <Link
+              className="text-blue-600"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleDownload}
+            >
+              View Attached File
+            </Link>
+          )}
           {data.description.length > 100 ? (
             <p className="text-lg">
               {isExpanded ? fullText : `${fullText.slice(0, 100)}...`}{" "}

@@ -5,6 +5,8 @@ from .serializers import UserRoleSerilizer,LoginSerializer, NoticeAndEventsSeria
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404
 
 class SignupView(APIView):
     def post(self, request):
@@ -98,3 +100,14 @@ def like_notice(request, pk):
         notice.like_count += 1
     notice.save()
     return Response({'like_count': notice.like_count}, status=status.HTTP_200_OK)
+
+def download_file(request, pk):
+    notice = get_object_or_404(Notice_And_Events, pk=pk)
+    
+    if not notice.file:
+        raise Http404("File does not exist")
+
+    file = notice.file
+    response = HttpResponse(file, content_type='application/octet-stream')
+    response['Content-Disposition'] = f'attachment; filename="{file.name}"'
+    return response

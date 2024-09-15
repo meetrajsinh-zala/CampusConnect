@@ -21,6 +21,7 @@ const CreatePost = ({ Data }) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [department, setDepartment] = useState("");
+  const [file, setFile] = useState(null);
 
   const handlesubmit = async () => {
     const formData = new FormData();
@@ -29,6 +30,7 @@ const CreatePost = ({ Data }) => {
     if (image) {
       formData.append("image", image);
     }
+    if (file) formData.append("file", file);
 
     try {
       const token = localStorage.getItem("accessToken");
@@ -72,6 +74,14 @@ const CreatePost = ({ Data }) => {
           <div className="flex flex-col gap-2">
             <Label>Image</Label>
             <Input type="file" onChange={(e) => setImage(e.target.files[0])} />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label>Document</Label>
+            <Input
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
           </div>
           <div className="flex flex-col gap-2">
             <Label>Description</Label>

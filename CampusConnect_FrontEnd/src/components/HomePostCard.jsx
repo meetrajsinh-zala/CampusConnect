@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 const BACKEND_URL = "http://localhost:8000";
 const token = localStorage.getItem("accessToken");
@@ -46,12 +47,15 @@ const HomePostCard = ({ notice }) => {
     }
   };
 
+  const handleDownload = () => {
+    window.location.href = `http://localhost:8000/api/notices/${notice.id}/download/`;
+  };
+
   useEffect(() => {
     if (notice.image) {
       setImageUrl(`${BACKEND_URL}${notice.image}`);
     }
   }, [notice]);
-
   return (
     <div className="w-full sm:w-[75%] lg:w-[50%] mx-auto my-2">
       <Card className="w-auto shadow-md ">
@@ -67,7 +71,7 @@ const HomePostCard = ({ notice }) => {
               </Avatar>
             </div>
             <div>
-              <CardTitle className="cursor-pointer">
+              <CardTitle className="cursor-pointer text-lg font-medium">
                 {notice.username}
               </CardTitle>
               <CardDescription>
@@ -84,6 +88,16 @@ const HomePostCard = ({ notice }) => {
             Created On :{" "}
             {new Date(notice.created_at).toISOString().split("T")[0]}
           </p>
+          {notice.file && (
+            <Link
+              className="text-blue-600"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleDownload}
+            >
+              View Attached File
+            </Link>
+          )}
           {notice.description.length > 100 ? (
             <p className="text-lg">
               {isExpanded
