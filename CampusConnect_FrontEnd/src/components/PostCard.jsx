@@ -11,12 +11,14 @@ import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {FcLike} from 'react-icons/fc';
 import {Button} from '@/components/ui/button';
 import {Link, useNavigate} from 'react-router-dom';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 
 const BACKEND_URL = 'http://localhost:8000';
 
 const PostCard = ({onUpdate, data, onDelete}) => {
   const [isExpanded, setIsExpanded] = useState (false);
   const [imageUrl, setImageUrl] = useState ('');
+  const [showLikedUser, setShowLikedUser] = useState(false)
   const navigate = useNavigate ();
   console.log(data)
   const fullText = data?.description;
@@ -97,7 +99,7 @@ const PostCard = ({onUpdate, data, onDelete}) => {
           <CardFooter className="flex flex-col gap-3">
             <div className="flex items-center w-full justify-between">
               <div className={`flex gap-2`}>
-                <FcLike size={24} />
+                <button onClick={() => setShowLikedUser(!showLikedUser)}><FcLike size={24} /></button>
                 <p className="select-none">{data?.like_count} Likes</p>
               </div>
               {window.location.pathname === '/Profile' && <div className="flex gap-2">
@@ -112,6 +114,26 @@ const PostCard = ({onUpdate, data, onDelete}) => {
                 </Button>
               </div>}
             </div>
+            {showLikedUser && <div className='w-full bg-white z-10'>
+        <Table className="overflow-scroll">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Id</TableHead>
+              <TableHead>Liked User</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {
+              data.liked_users.map((user,idx) => {
+                return <TableRow>
+                  <TableCell>{idx}</TableCell>
+                  <TableCell>{user}</TableCell>
+                </TableRow>
+              })
+            }
+          </TableBody>
+        </Table>
+      </div>}
             {window.location.pathname === '/Profile' && <div className="w-full">
               <Button
                 className="w-full bg-[#1570ef] hover:bg-[#1570ef]/80"
