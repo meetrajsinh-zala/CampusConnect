@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from './ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,46 +15,48 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from '@/components/ui/dropdown-menu';
+import {Label} from './ui/label';
+import {Input} from './ui/input';
+import {Button} from './ui/button';
+import {Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
-    role: "",
+  const [formData, setFormData] = useState ({
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    password: '',
+    role: '',
+    sem: '',
+    department: '',
   });
 
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [error, setError] = useState ('');
+  const navigate = useNavigate ();
 
-  const handleChange = (e) => {
-    setFormData({
+  const handleChange = e => {
+    setFormData ({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async e => {
+    e.preventDefault ();
 
     // Form validation can be added here
     if (!formData.username || !formData.password || !formData.email) {
-      setError("Please fill in all required fields.");
+      setError ('Please fill in all required fields.');
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/api/signup/", {
+      const response = await axios.post ('http://localhost:8000/api/signup/', {
         user: {
           username: formData.username,
           email: formData.email,
@@ -63,24 +65,26 @@ const SignUp = () => {
           last_name: formData.lastName,
         },
         role: formData.role,
+        sem: formData.sem,
+        department: formData.department,
       });
 
       if (response.status === 201) {
-        toast.success("User Register Sucessfully", {
-          position: "top-center",
+        toast.success ('User Register Sucessfully', {
+          position: 'top-center',
         });
-        toast("Redirecting To The Login Page...", {
-          position: "top-center",
+        toast ('Redirecting To The Login Page...', {
+          position: 'top-center',
         });
-        setTimeout(() => {
-          navigate("/Login");
+        setTimeout (() => {
+          navigate ('/Login');
         }, 2000);
       }
     } catch (err) {
-      console.error("Error during sign-up:", err);
-      setError("Failed to create account. Please try again.");
-      toast.error("Somthing went wrong...", {
-        position: "top-center",
+      console.error ('Error during sign-up:', err);
+      setError ('Failed to create account. Please try again.');
+      toast.error ('Somthing went wrong...', {
+        position: 'top-center',
       });
     }
   };
@@ -104,9 +108,8 @@ const SignUp = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuRadioGroup
                   value={formData.role}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, role: value })
-                  }
+                  onValueChange={value =>
+                    setFormData ({...formData, role: value})}
                 >
                   <DropdownMenuRadioItem value="admin">
                     Admin
@@ -118,23 +121,45 @@ const SignUp = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+          <div className="flex gap-2">
+            <div className="flex flex-col gap-2">
+              <Label>First Name</Label>
+              <Input
+                type="text"
+                name="firstName"
+                placeholder="EX: John"
+                value={formData.firstName}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Last Name</Label>
+              <Input
+                type="text"
+                name="lastName"
+                placeholder="EX: Doe"
+                value={formData.lastName}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
           <div className="flex flex-col gap-2">
-            <Label>First Name</Label>
+            <Label>Semester</Label>
             <Input
-              type="text"
-              name="firstName"
-              placeholder="EX: John"
-              value={formData.firstName}
+              type="number"
+              name="sem"
+              placeholder="Enter Your Semester"
+              value={formData.sem}
               onChange={handleChange}
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label>Last Name</Label>
+            <Label>Department</Label>
             <Input
               type="text"
-              name="lastName"
-              placeholder="EX: Doe"
-              value={formData.lastName}
+              name="department"
+              placeholder="EX : IT"
+              value={formData.department}
               onChange={handleChange}
             />
           </div>
@@ -170,12 +195,12 @@ const SignUp = () => {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-1">
-          <Button className="w-full" onClick={(e) => handleSubmit(e)}>
+          <Button className="w-full" onClick={e => handleSubmit (e)}>
             Sign up
           </Button>
           <p className="text-center">
             Don't have an account?&nbsp;
-            <Link to={"/Login"} className="text-[#1c284f] font-bold">
+            <Link to={'/Login'} className="text-[#1c284f] font-bold">
               Login
             </Link>
           </p>

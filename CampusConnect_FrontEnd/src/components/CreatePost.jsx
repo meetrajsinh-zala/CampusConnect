@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -22,6 +22,26 @@ const CreatePost = ({ Data }) => {
   const [image, setImage] = useState(null);
   const [department, setDepartment] = useState("");
   const [file, setFile] = useState(null);
+  const token = localStorage.getItem('accessToken')
+  const fetchUserDepartment = () => {
+    axios.get('http://localhost:8000/api/getProfile/',{
+      headers: {
+        Authorization : `Bearer ${token}`
+      }
+    })
+    .then((response) => {
+      setDepartment(response.data.department)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  }
+
+  useEffect(() => {
+    if(localStorage.getItem('role') === 'admin'){
+      fetchUserDepartment()
+    }
+  },[])
 
   const handlesubmit = async () => {
     const formData = new FormData();
@@ -67,8 +87,8 @@ const CreatePost = ({ Data }) => {
             <Input
               type="text"
               value={department}
-              onChange={(e) => setDepartment(e.target.value)}
               placeholder="Notice Department"
+              disabled
             />
           </div>
           <div className="flex flex-col gap-2">

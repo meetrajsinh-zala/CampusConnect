@@ -14,6 +14,7 @@ const Profile = () => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [userProfile, setUserProfile] = useState(null)
   const token = localStorage.getItem("accessToken");
 
   const handleEditClick = (post) => {
@@ -26,11 +27,29 @@ const Profile = () => {
     setSelectedPost(null);
   };
 
+  const fetchProfile = () => {
+    axios.get('http://localhost:8000/api/getProfile/',{
+      headers: {
+        Authorization : `Bearer ${token}`
+      }
+    })
+    .then((response) => {
+      setUserProfile(response.data)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  }
+
   useEffect(() => {
     if (localStorage.getItem("role") === "admin") {
       fetchPosts();
     }
   }, [localStorage.getItem("role")]);
+
+  useEffect(() => {
+    fetchProfile()
+  },[])
 
   const fetchPosts = () => {
     axios
@@ -41,7 +60,6 @@ const Profile = () => {
       })
       .then((response) => setPosts(response.data))
       .catch((error) => console.error(error));
-    console.log(posts);
   };
 
   const handleDelete = (postId) => {
@@ -69,21 +87,22 @@ const Profile = () => {
       )}
       <div
         className={`${
-          localStorage.getItem("role") === "student" && "h-[calc(100vh-100px)]"
+          userProfile?.role === "student" && "h-[calc(100vh-100px)]"
         } flex justify-center items-center`}
       >
         <Card
           className={`${
-            localStorage.getItem("role") === "admin" ? "w-[90%]" : "w-[30%]"
-          } my-2`}
+            userProfile?.role  === "admin" ? "w-[90%]" : "w-[30%]"
+          } my-2 shadow-md`}
         >
           <CardHeader>
             <CardTitle className="font-serif text-center">
-              {localStorage.getItem("role").toUpperCase()} PROFILE
+              {userProfile?.role.toUpperCase()} PROFILE
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="mx-auto flex items-center gap-8 w-[90%]">
+            <div className="mb-3">
+            <div className="mx-auto flex items-center gap-12 w-[90%]">
               <div>
                 <Avatar className="w-16 h-16">
                   <AvatarImage
@@ -95,12 +114,20 @@ const Profile = () => {
               </div>
               <div className="flex flex-col gap-[0.15rem]">
                 <p className="font-medium">
-                  {localStorage.getItem("username")}
+                  {userProfile?.username}
                 </p>
-                <p className="font-medium">{localStorage.getItem("email")}</p>
+                <p className="font-medium">{userProfile?.email}</p>
               </div>
             </div>
-            {localStorage.getItem("role") === "admin" && (
+            {userProfile?.role === 'student' && <div className="flex flex-col gap-[0.15rem]">
+                <p className="font-medium"> {`${userProfile?.['first name']} ${userProfile?.['last name']}`}</p>
+            </div>}
+            </div>
+            {userProfile?.role === 'student' && <div className="flex justify-between">
+              <p><span className="font-medium">Semester</span> : {userProfile?.sem}</p>
+              <p><span className="font-medium">Department</span> : {userProfile?.department}</p>
+            </div>}
+            {userProfile?.role === "admin" && (
               <>
                 <div className="mt-2 p-2 w-[90%] mx-auto">
                   <Label className="text-[30px] ">NOTICES</Label>

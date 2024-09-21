@@ -16,7 +16,7 @@ const Home = () => {
     setShowCreatePost(!ShowCreatePost);
   };
 
-  const fetchNotices = async () => {
+  const fetchAllNotices = async () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get("http://localhost:8000/api/notices/", {
@@ -31,8 +31,30 @@ const Home = () => {
     }
   };
 
+  const fetchDepartmentNotices = async () => {
+    try{
+      const token = localStorage.getItem('accessToken')
+    const response = await axios.get('http://localhost:8000/api/departmentWiseNotice/',{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+    setNotices(response.data)
+    setFilteredNotices(response.data)
+    }
+    catch(error){
+
+      console.error("Error fetching notices : ",error)
+    }
+  }
+
   useEffect(() => {
-    fetchNotices();
+    if(localStorage.getItem('role') === 'admin'){
+      fetchAllNotices();
+    }
+    else{
+      fetchDepartmentNotices()
+    }
   }, []);
 
   const handleSearch = (e) => {
@@ -49,21 +71,34 @@ const Home = () => {
     }
   };
 
+  const handleUserSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearchTerm(searchTerm)
+    if(searchTerm === ""){
+      setFilteredNotices(notices)
+    }
+    else{
+      const filtered = notices.filter((notice) =>
+        notice.username.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredNotices(filtered);
+    }
+  }
   return (
     <>
       <Navbar Data={{ ShowForm: ChangeVisibility }} />
       {ShowCreatePost && (
         <CreatePost
-          Data={{ ShowForm: ChangeVisibility, fetchNotice: fetchNotices }}
+          Data={{ ShowForm: ChangeVisibility, fetchNotice: localStorage.getItem('admin') ? fetchAllNotices : fetchDepartmentNotices  }}
         />
       )}
       <div className="w-full sm:w-[75%] lg:w-[50%] mx-auto my-2">
         {notices.length > 0 && (
           <Input
             type="text"
-            placeholder="Filter Based On Department"
+            placeholder={localStorage.getItem('role') === 'admin' ? "Filter Based On Department" : 'Filter Based On Username'}
             value={searchTerm}
-            onChange={handleSearch}
+            onChange={localStorage.getItem('role') === 'admin' ? handleSearch : handleUserSearch}
           />
         )}
       </div>
